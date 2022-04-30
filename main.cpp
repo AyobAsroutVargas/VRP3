@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
   int nClients = 0, nVehicles = 0;
   std::vector<std::vector<int>> distanceMatrix;
   loadFromFile("I40j_2m_S1_1.txt", distanceMatrix, nClients, nVehicles);
+  int maxClients = (nClients / nVehicles) + (nClients * 0.1);
   Problem problem(distanceMatrix, nClients, nVehicles);
   GreedyVrp greedy(problem);
   Solution greedySolution(greedy.Solve(), distanceMatrix);
@@ -21,10 +22,10 @@ int main(int argc, char* argv[]) {
   EnviromentStructure* swapIntra = new SwapIntra();
   EnviromentStructure* swapEntre = new SwapEntre();
 
-  GraspVrp graspRIntra(problem, reinsertionIntra);
-  GraspVrp graspREntre(problem, reinsertionEntre);
-  GraspVrp graspSIntra(problem, swapIntra);
-  GraspVrp graspSEntre(problem, swapEntre);
+  GraspVrp graspRIntra(problem, reinsertionIntra, maxClients);
+  GraspVrp graspREntre(problem, reinsertionEntre, maxClients);
+  GraspVrp graspSIntra(problem, swapIntra, maxClients);
+  GraspVrp graspSEntre(problem, swapEntre, maxClients);
 
   Solution graspRIntraSolution(graspRIntra.generateInitialSolution(), distanceMatrix);
   Solution graspREntreSolution(graspREntre.generateInitialSolution(), distanceMatrix);

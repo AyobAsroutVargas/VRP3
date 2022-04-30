@@ -26,28 +26,12 @@ std::vector<std::vector<int>> GreedyVrp::Solve() {
   int carIndex = 0;
 
   while (problem_.nodes_.size() != 1) {
-    // int minDistance = INT_MAX;
-    // bool isDeposit = true;
-    // int bestNodeIndex;
     int currentIndex = problem_.vehicles_[carIndex].tour.size() - 1;
-
-    // for (int nodeIndex = 1; nodeIndex <= nClients_; nodeIndex++) {
-    //   if (nodes_.count(nodeIndex)) {
-    //     int tmpDistance = distanceMatrix_[vehicles_[carIndex].tour[currentIndex]][nodeIndex];
-    //     if (tmpDistance < minDistance) {
-    //       minDistance = tmpDistance;
-    //       isDeposit = false;
-    //       bestNodeIndex = nodeIndex;
-    //     }
-    //   }
-    // }
     int bestNodeIndex = getClosestNode(carIndex);
 
-    //if (!isDeposit) {
-      problem_.vehicles_[carIndex].tour.push_back(bestNodeIndex);
-      problem_.nodes_.erase(bestNodeIndex);
-      carIndex = (carIndex + 1) % problem_.nVehicles_;
-    //}
+    problem_.vehicles_[carIndex].tour.push_back(bestNodeIndex);
+    problem_.nodes_.erase(bestNodeIndex);
+    carIndex = (carIndex + 1) % problem_.nVehicles_;
   }
 
   for (int i = 0; i < problem_.nVehicles_; i++) {

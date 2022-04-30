@@ -1,8 +1,9 @@
 #include "grasp-vrp.h"
 
-GraspVrp::GraspVrp(Problem problem, EnviromentStructure* localSearch) {
+GraspVrp::GraspVrp(Problem problem, EnviromentStructure* localSearch, int maxClients) {
   problem_ = problem;
   localSearch_ = localSearch;
+  maxClients_ = maxClients;
 }
 
 int GraspVrp::getClosestNode(int carIndex, std::set<int>& tempNodes){
@@ -69,12 +70,15 @@ std::vector<std::vector<int>> GraspVrp::constructSolution(){
 }
 
 std::vector<std::vector<int>> GraspVrp::generateInitialSolution() {
+  int noUpgradeCount = 0;
   Solution bestSolution(constructSolution(), problem_.distanceMatrix_);
-  for (int i = 0; i < 2000; i++) {
+  for (int i = 0; i < 2000 && noUpgradeCount < 300; i++) {
     Solution tempSolution(constructSolution(), problem_.distanceMatrix_);
-    Solution neighborSolution(localSearch_->Apply(tempSolution), problem_.distanceMatrix_);
+    Solution neighborSolution(localSearch_->Search(tempSolution, maxClients_), problem_.distanceMatrix_);
     if (neighborSolution.tourDistance() < bestSolution.tourDistance()) {
       bestSolution.solution_ = neighborSolution.solution_;
+    } else {
+      noUpgradeCount++;
     }
   }
   return bestSolution.solution_;

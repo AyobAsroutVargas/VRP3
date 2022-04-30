@@ -1,6 +1,6 @@
 #include "intercambio-intra.h"
 
-std::vector<std::vector<int>> SwapIntra::Apply(Solution initialSolution) {
+std::vector<std::vector<int>> SwapIntra::Apply(Solution initialSolution, int maxClients) {
   int cost = initialSolution.tourDistance();
   int bestCost = cost;
   int iValue =0, jValue = 0, kValue = 0;
@@ -43,4 +43,14 @@ std::vector<std::vector<int>> SwapIntra::Apply(Solution initialSolution) {
     BestSolution[iValue][kValue] = temp;
   }
   return BestSolution;
+}
+
+std::vector<std::vector<int>> SwapIntra::Search(Solution initialSolution, int maxClients) {
+  Solution currentSolution(initialSolution.solution_, initialSolution.distanceMatrix_);
+  Solution BestSolution(Apply(initialSolution, maxClients), initialSolution.distanceMatrix_);
+  while (BestSolution.tourDistance() < currentSolution.tourDistance()) {
+    currentSolution.solution_ = BestSolution.solution_;
+    BestSolution.solution_ = Apply(BestSolution, maxClients);
+  }
+  return BestSolution.solution_;
 }

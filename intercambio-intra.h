@@ -5,7 +5,8 @@
 
 class SwapIntra : public EnviromentStructure {
  public:
-  std::vector<std::vector<int>> Apply(Solution initialSolution);
+  std::vector<std::vector<int>> Apply(Solution initialSolution, int maxClients);
+  std::vector<std::vector<int>> Search(Solution initialSolution, int maxClients);
 };
 
 #endif

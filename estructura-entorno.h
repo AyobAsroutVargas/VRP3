@@ -12,7 +12,8 @@
 
 class EnviromentStructure {
  public:
-  virtual std::vector<std::vector<int>> Apply(Solution initialSolution) = 0;
+  virtual std::vector<std::vector<int>> Apply(Solution initialSolution, int maxClients) = 0;
+  virtual std::vector<std::vector<int>> Search(Solution initialSolution, int maxClients) = 0;
 };
 
 #endif
