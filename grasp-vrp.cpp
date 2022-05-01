@@ -72,7 +72,7 @@ std::vector<std::vector<int>> GraspVrp::constructSolution(){
 std::vector<std::vector<int>> GraspVrp::generateInitialSolution() {
   int noUpgradeCount = 0;
   Solution bestSolution(constructSolution(), problem_.distanceMatrix_);
-  for (int i = 0; i < 2000 && noUpgradeCount < 300; i++) {
+  for (int i = 0; i < 2000 && noUpgradeCount < 500; i++) {
     Solution tempSolution(constructSolution(), problem_.distanceMatrix_);
     Solution neighborSolution(localSearch_->Search(tempSolution, maxClients_), problem_.distanceMatrix_);
     if (neighborSolution.tourDistance() < bestSolution.tourDistance()) {

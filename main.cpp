@@ -2,6 +2,7 @@
 #include "greedy-vrp.h"
 #include "grasp-vrp.h"
 #include "solution.h"
+#include "gvns.h"
 
 
 int main(int argc, char* argv[]) {
@@ -27,10 +28,14 @@ int main(int argc, char* argv[]) {
   GraspVrp graspSIntra(problem, swapIntra, maxClients);
   GraspVrp graspSEntre(problem, swapEntre, maxClients);
 
+  Gvns gvns(problem, maxClients, 4);
+  Solution gvnsSolution(gvns.solve(), distanceMatrix);
+
   Solution graspRIntraSolution(graspRIntra.generateInitialSolution(), distanceMatrix);
   Solution graspREntreSolution(graspREntre.generateInitialSolution(), distanceMatrix);
   Solution graspSIntraSolution(graspSIntra.generateInitialSolution(), distanceMatrix);
   Solution graspSEntreSolution(graspSEntre.generateInitialSolution(), distanceMatrix);
+  
   std::cout << "Greedy\n";
   greedySolution.print();
   std::cout << "\n\n\n";
@@ -45,5 +50,8 @@ int main(int argc, char* argv[]) {
   std::cout << "\n\n\n";
   std::cout << "Grasp(intercambio-Entre)\n";
   graspSEntreSolution.print();
+  std::cout << "\n\n\n";
+  std::cout << "GVNS\n";
+  gvnsSolution.print();
   std::cout << "\n\n\n";
 }
